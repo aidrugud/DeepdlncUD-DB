@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "DeepdlncUD-DB"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+  page-footer:
+    left: "©2023. Developed by [Jinlong Ru](https://github.com/rujinlong) and [Jianfeng Sun](https://github.com/2003100127)"
+    # right:
+    #   - icon: github
+    #     href: https://github.com/rujinlong
+    background: "#536878"
+
+format:
+  html:
+    theme: flatly
+    css: styles.css
+    toc: false
+    smooth-scroll: true
+
+
+

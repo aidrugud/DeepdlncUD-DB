@@ -1,0 +1,5 @@
+---
+title: "About"
+---
+
+The [DeepdlncUD](https://github.com/2003100127/deepdlncud) application and database development. Using 21 small molecules and 1683 lncRNAs, 35,343 SM-lncR pairs are formed. After excluding 1732 pairs used in our training and testing, we were left with 33,611 pairs, whose regulation types were then predicted by [DeepdlncUD](https://github.com/2003100127/deepdlncud). Note that whether each of the remaining 33,611 pairs is associated is unknown.

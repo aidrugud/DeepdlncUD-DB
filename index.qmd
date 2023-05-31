@@ -1,0 +1,95 @@
+---
+title: ""
+---
+
+
+```{r}
+#| echo: false
+#| output: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(reactable)
+
+df <- openxlsx::read.xlsx("data.xlsx")
+
+# change the second column to character type
+df[, 2] <- as.character(df[, 2])
+
+# change values in column of numeric type to four decimal places
+df[, 3:ncol(df)-1] <- lapply(df[, 3:ncol(df)-1], function(x) {
+    if (is.numeric(x)) {
+        format(round(x, 4), nsmall = 4)
+    } else {
+        x
+    }
+})
+```
+
+```{r}
+#| echo: false
+#| column: screen-inset
+reactable::reactable(df,
+    bordered = TRUE,
+    highlight = TRUE,
+    filterable = TRUE,
+    searchable = TRUE,
+    showPageSizeOptions = TRUE,
+    pageSizeOptions = c(10, 20, 30, 40, 50),
+    paginationType = "jump",
+    showPagination = TRUE,
+    defaultPageSize = 10,
+    striped = TRUE,
+    wrap = FALSE,
+    resizable = TRUE,
+    columns = list(
+        lncRNA = reactable::colDef(
+          filterInput = function(values, name) {
+            htmltools::tags$select(
+              # Set to undefined to clear the filter
+              onchange = sprintf("Reactable.setFilter('tbl-select', '%s', event.target.value || undefined)", name),
+              # "All" has an empty value to clear the filter, and is the default option
+              htmltools::tags$option(value = "", "All"),
+              lapply(sort(unique(values)), htmltools::tags$option),
+              "aria-label" = sprintf("Filter %s", name),
+              style = "width: 100%; height: 28px;"
+            )
+          }
+        ),
+        Compound_id = reactable::colDef(
+          filterInput = function(values, name) {
+            htmltools::tags$select(
+              # Set to undefined to clear the filter
+              onchange = sprintf("Reactable.setFilter('tbl-select', '%s', event.target.value || undefined)", name),
+              # "All" has an empty value to clear the filter, and is the default option
+              htmltools::tags$option(value = "", "All"),
+              lapply(sort(unique(values)), htmltools::tags$option),
+              "aria-label" = sprintf("Filter %s", name),
+              style = "width: 100%; height: 28px;"
+            )
+          }
+        ),
+        Predicted.regulation.type = reactable::colDef(
+          filterInput = function(values, name) {
+            htmltools::tags$select(
+              # Set to undefined to clear the filter
+              onchange = sprintf("Reactable.setFilter('tbl-select', '%s', event.target.value || undefined)", name),
+              # "All" has an empty value to clear the filter, and is the default option
+              htmltools::tags$option(value = "", "All"),
+              lapply(sort(unique(values)), htmltools::tags$option),
+              "aria-label" = sprintf("Filter %s", name),
+              style = "width: 100%; height: 28px;"
+            )
+          }
+        )
+    ),
+    elementId = "tbl-select"
+    # rowStyle = function(index) {
+    #     if (df[index, "Predicted.regulation.type"] == "upregulation") {
+    #         list(background = "#E8F5E9")
+    #     } else if (df[index, "Predicted.regulation.type"] == "downregulation") {
+    #         list(background = "#FFEBEE")
+    #     }
+    # }
+)
+```
